@@ -2,7 +2,10 @@ const express = require("express");
 const https = require("https");
 const bodyParser = require("body-parser");
 
+
 const app = express();
+app.set('view engine', 'ejs');
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", function(req, res) {
@@ -21,7 +24,7 @@ app.post("/", function(req, res) {
       var imageUrl1 = "http://openweathermap.org/img/wn/icon@2x.png";
       var imageUrl = imageUrl1.replace("icon", icon);
       const weatherDiscription = weatherData.weather[0].description;
-      res.send("<h1>The Temprature in "+cityName+" is "+temp+"°C. With "+weatherDiscription+".</h1>"+"<img src = " + imageUrl + ">");
+      res.render("result", {temp:temp, city: cityName, imageUrl:imageUrl});
 
      });
   });
